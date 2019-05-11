@@ -5,7 +5,7 @@
     "importFormat": "JSON"
   },
   "resource": {
-    "name": "SMASH",
+    "name": "SMAH",
     "version": "3",
     "intents": [
       {
