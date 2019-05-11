@@ -1,0 +1,834 @@
+{
+  "metadata": {
+    "schemaVersion": "1.0",
+    "importType": "LEX",
+    "importFormat": "JSON"
+  },
+  "resource": {
+    "name": "SMASH",
+    "version": "3",
+    "intents": [
+      {
+        "name": "getSchoolEvents",
+        "version": "35",
+        "fulfillmentActivity": {
+          "codeHook": {
+            "uri": "arn:aws:lambda:us-east-1:981282554781:function:SMASHCalendarRequest",
+            "messageVersion": "1.0"
+          },
+          "type": "CodeHook"
+        },
+        "sampleUtterances": [
+          "SMASH what is happening today",
+          "What events are there",
+          "events",
+          "tell me {all} the events happening today",
+          "{all} events",
+          "what events are there today for {CalendarType}",
+          "tell me the events happening today for {CalendarType}",
+          "what are {all} the event happening today for {CalendarType}",
+          "Tell me {all} the events going on today for {CalendarType}"
+        ],
+        "slots": [
+          {
+            "sampleUtterances": [],
+            "slotType": "AllGroup",
+            "slotTypeVersion": "2",
+            "slotConstraint": "Optional",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Do you want all of them?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 2,
+            "name": "all"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "calenderType",
+            "slotTypeVersion": "5",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What calendar does that pertain to?"
+                },
+                {
+                  "contentType": "PlainText",
+                  "content": "Which calendar do you want me to access?"
+                },
+                {
+                  "contentType": "PlainText",
+                  "content": "What calendar are you referring to?"
+                }
+              ],
+              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\",\"genericAttachments\":[]}",
+              "maxAttempts": 2
+            },
+            "priority": 3,
+            "name": "CalendarType"
+          }
+        ]
+      },
+      {
+        "name": "getEventsBasedOnDate",
+        "version": "5",
+        "fulfillmentActivity": {
+          "codeHook": {
+            "uri": "arn:aws:lambda:us-east-1:981282554781:function:SMASHCalenderDateRequest",
+            "messageVersion": "1.0"
+          },
+          "type": "CodeHook"
+        },
+        "sampleUtterances": [
+          "date {date}",
+          "what is happening on {date}",
+          "what is happening on {date} in the {CalendarType}",
+          "tell me {all} the events happening on {date}",
+          "what are {all} the events happening on {date}",
+          "what {all} the the events in happening on {date} in the {CalendarType}",
+          "tell me {all} the events happening on {date} in the {CalendarType}"
+        ],
+        "slots": [
+          {
+            "sampleUtterances": [],
+            "slotType": "AllGroup",
+            "slotTypeVersion": "2",
+            "slotConstraint": "Optional",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Do you want to display all of them"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "name": "all"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "calenderType",
+            "slotTypeVersion": "5",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What calendar does that pertain to?"
+                },
+                {
+                  "contentType": "PlainText",
+                  "content": "What calendar is that?"
+                },
+                {
+                  "contentType": "PlainText",
+                  "content": "You should tell me the calendar..."
+                },
+                {
+                  "contentType": "PlainText",
+                  "content": "Obviously I still need to know the calendar to look it up..."
+                }
+              ],
+              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\",\"genericAttachments\":[]}",
+              "maxAttempts": 2
+            },
+            "priority": 3,
+            "name": "CalendarType"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.DATE",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What is the date"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 2,
+            "name": "date"
+          }
+        ]
+      },
+      {
+        "name": "getEventsBasedOnWeekDay",
+        "version": "10",
+        "fulfillmentActivity": {
+          "codeHook": {
+            "uri": "arn:aws:lambda:us-east-1:981282554781:function:SMASHCalenderDateRequest",
+            "messageVersion": "1.0"
+          },
+          "type": "CodeHook"
+        },
+        "sampleUtterances": [
+          "What is happening on {weekDay}",
+          "What are {all} the events happening on {weekDay}",
+          "Tell me {all} the events happening on {weekDay}"
+        ],
+        "slots": [
+          {
+            "sampleUtterances": [],
+            "slotType": "AllGroup",
+            "slotTypeVersion": "2",
+            "slotConstraint": "Optional",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Do you want to me to read all of them?"
+                }
+              ],
+              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\",\"genericAttachments\":[]}",
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "name": "all"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "calenderType",
+            "slotTypeVersion": "5",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What Calendar does that pertain to?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 3,
+            "name": "CalendarType"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.DayOfWeek",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What week day is that?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 2,
+            "name": "weekDay"
+          }
+        ]
+      },
+      {
+        "name": "getProfessorInformation",
+        "version": "7",
+        "fulfillmentActivity": {
+          "codeHook": {
+            "uri": "arn:aws:lambda:us-east-1:981282554781:function:SMASHFacultyInfo",
+            "messageVersion": "1.0"
+          },
+          "type": "CodeHook"
+        },
+        "sampleUtterances": [
+          "Professor {Person}",
+          "I want professor information",
+          "Tell the contact information of a professor",
+          "Look up {Person}",
+          "what is {Person} email address",
+          "what is {Person} phone number",
+          "where is {Person} office",
+          "Tell me about {Person}"
+        ],
+        "slots": [
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.Person",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What is their name?"
+                },
+                {
+                  "contentType": "PlainText",
+                  "content": "I need to know their name..."
+                },
+                {
+                  "contentType": "PlainText",
+                  "content": "How do you expect me to look it up without telling me their name? What's their name?"
+                },
+                {
+                  "contentType": "PlainText",
+                  "content": "You're missing their name"
+                }
+              ],
+              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\"}",
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "name": "Person"
+          }
+        ]
+      },
+      {
+        "name": "CheckGrades",
+        "version": "19",
+        "fulfillmentActivity": {
+          "codeHook": {
+            "uri": "arn:aws:lambda:us-east-1:981282554781:function:SMASH_RequestProcessor",
+            "messageVersion": "1.0"
+          },
+          "type": "CodeHook"
+        },
+        "sampleUtterances": [
+          "Check my grades",
+          "I want to check my grades for {course}",
+          "Please check my grades in {course}",
+          "Smash check my grades"
+        ],
+        "slots": [
+          {
+            "sampleUtterances": [],
+            "slotType": "courseTypes",
+            "slotTypeVersion": "7",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What type of course should I check?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "name": "course"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "userID",
+            "slotTypeVersion": "2",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What is your username?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 2,
+            "name": "username"
+          }
+        ],
+        "dialogCodeHook": {
+          "uri": "arn:aws:lambda:us-east-1:981282554781:function:SMASHCalendarRequest",
+          "messageVersion": "1.0"
+        }
+      },
+      {
+        "name": "getReportCard",
+        "version": "2",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "SMASH make my report card",
+          "Get me my report card username {username}"
+        ],
+        "slots": [
+          {
+            "sampleUtterances": [],
+            "slotType": "userID",
+            "slotTypeVersion": "2",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What is your username?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "name": "username"
+          }
+        ]
+      },
+      {
+        "name": "whatCalendarsAreThere",
+        "version": "2",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "How many calendars are there",
+          "What are the calendars",
+          "Tell me the calendars",
+          "What calendars can I reference"
+        ],
+        "slots": [],
+        "conclusionStatement": {
+          "messages": [
+            {
+              "groupNumber": 1,
+              "contentType": "PlainText",
+              "content": "There are 5 School Calendars. There is an Athletics Calendar,Arts Lectures And Cultural Events Calendar,Student Events Calendar, Meeting Calendar, and a Community Calendar."
+            },
+            {
+              "groupNumber": 1,
+              "contentType": "PlainText",
+              "content": "You have 5 calendars to choose from. There is an Athletics Calendar, Arts Lectures And Cultural Events Calendar, Student Events Calendar, Meeting Calendar, and a Community Calendar."
+            }
+          ]
+        }
+      },
+      {
+        "name": "enterGrades",
+        "version": "5",
+        "fulfillmentActivity": {
+          "codeHook": {
+            "uri": "arn:aws:lambda:us-east-1:981282554781:function:SMASH_enterGrades",
+            "messageVersion": "1.0"
+          },
+          "type": "CodeHook"
+        },
+        "sampleUtterances": [
+          "Update my grades",
+          "Smash update my grades",
+          "I want to update my grades for {course}"
+        ],
+        "slots": [
+          {
+            "sampleUtterances": [],
+            "slotType": "assignmentType",
+            "slotTypeVersion": "2",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What type of assignment?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 2,
+            "name": "assignment"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.NUMBER",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What number assignment?"
+                }
+              ],
+              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\"}",
+              "maxAttempts": 2
+            },
+            "priority": 4,
+            "name": "assignNum"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "courseTypes",
+            "slotTypeVersion": "7",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Which course would you like to update?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "name": "course"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.Percentage",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What grade did you get?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 3,
+            "name": "grade"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "userID",
+            "slotTypeVersion": "2",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What is your username?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 5,
+            "name": "username"
+          }
+        ]
+      },
+      {
+        "name": "registerUser",
+        "version": "1",
+        "fulfillmentActivity": {
+          "codeHook": {
+            "uri": "arn:aws:lambda:us-east-1:981282554781:function:registerUser",
+            "messageVersion": "1.0"
+          },
+          "type": "CodeHook"
+        },
+        "sampleUtterances": [
+          "register user {username}",
+          "register {personName}"
+        ],
+        "slots": [
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.Person",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What is your name?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 2,
+            "name": "personName"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "userRole",
+            "slotTypeVersion": "1",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Are you a student or a teacher?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 3,
+            "name": "role"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "userID",
+            "slotTypeVersion": "2",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What would you like your username to be?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "name": "username"
+          }
+        ]
+      },
+      {
+        "name": "Login",
+        "version": "2",
+        "fulfillmentActivity": {
+          "codeHook": {
+            "uri": "arn:aws:lambda:us-east-1:981282554781:function:SMASH_login",
+            "messageVersion": "1.0"
+          },
+          "type": "CodeHook"
+        },
+        "sampleUtterances": [
+          "Login {username}",
+          "I want to login"
+        ],
+        "slots": [
+          {
+            "sampleUtterances": [],
+            "slotType": "userID",
+            "slotTypeVersion": "2",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What is your userID?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "name": "username"
+          }
+        ]
+      },
+      {
+        "name": "enterWeights",
+        "version": "2",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "I want to set weights for course {course}"
+        ],
+        "slots": [
+          {
+            "sampleUtterances": [],
+            "slotType": "courseTypes",
+            "slotTypeVersion": "7",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Which course?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 4,
+            "name": "course"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.Percentage",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What weight do you give homework?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "name": "hw_weight"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.Percentage",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What weight do you give projects?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 3,
+            "name": "project_weight"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.Percentage",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What weight do you give tests?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 2,
+            "name": "test_weight"
+          }
+        ]
+      }
+    ],
+    "slotTypes": [
+      {
+        "description": "all set to true",
+        "name": "AllGroup",
+        "version": "2",
+        "enumerationValues": [
+          {
+            "value": "all",
+            "synonyms": [
+              "all"
+            ]
+          },
+          {
+            "value": "everything"
+          }
+        ],
+        "valueSelectionStrategy": "TOP_RESOLUTION"
+      },
+      {
+        "description": "AvailableCalendarTypes",
+        "name": "calenderType",
+        "version": "5",
+        "enumerationValues": [
+          {
+            "value": "Athletics Calendar",
+            "synonyms": [
+              "Athletics"
+            ]
+          },
+          {
+            "value": "Arts Lectures And Cultural Events Calendar",
+            "synonyms": [
+              "Art",
+              "Lectures"
+            ]
+          },
+          {
+            "value": "Student Events Calendar",
+            "synonyms": [
+              "Student Events"
+            ]
+          },
+          {
+            "value": "Meeting Calendar",
+            "synonyms": [
+              "Meeting"
+            ]
+          },
+          {
+            "value": "Community Calendar ",
+            "synonyms": [
+              "Community"
+            ]
+          }
+        ],
+        "valueSelectionStrategy": "ORIGINAL_VALUE"
+      },
+      {
+        "description": "Student's courses",
+        "name": "courseTypes",
+        "version": "7",
+        "enumerationValues": [
+          {
+            "value": "Software Engineering"
+          },
+          {
+            "value": "cs111"
+          },
+          {
+            "value": "cs113"
+          },
+          {
+            "value": "math270"
+          },
+          {
+            "value": "cs115"
+          },
+          {
+            "value": "Physics"
+          },
+          {
+            "value": "Discrete Math"
+          },
+          {
+            "value": "Operating Systems"
+          }
+        ],
+        "valueSelectionStrategy": "ORIGINAL_VALUE"
+      },
+      {
+        "description": "Student or instructor",
+        "name": "userRole",
+        "version": "1",
+        "enumerationValues": [
+          {
+            "value": "instructor",
+            "synonyms": [
+              "teacher",
+              "faculty"
+            ]
+          },
+          {
+            "value": "student",
+            "synonyms": [
+              "guest"
+            ]
+          }
+        ],
+        "valueSelectionStrategy": "TOP_RESOLUTION"
+      },
+      {
+        "name": "userID",
+        "version": "2",
+        "enumerationValues": [
+          {
+            "value": "ackle003"
+          }
+        ],
+        "valueSelectionStrategy": "ORIGINAL_VALUE"
+      },
+      {
+        "description": "Type of assignment",
+        "name": "assignmentType",
+        "version": "2",
+        "enumerationValues": [
+          {
+            "value": "Homework"
+          }
+        ],
+        "valueSelectionStrategy": "ORIGINAL_VALUE"
+      }
+    ],
+    "voiceId": "Salli",
+    "childDirected": false,
+    "locale": "en-US",
+    "idleSessionTTLInSeconds": 300,
+    "clarificationPrompt": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Sorry, can you please repeat that?"
+        }
+      ],
+      "maxAttempts": 5
+    },
+    "abortStatement": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Sorry, I could not understand. Goodbye."
+        }
+      ]
+    }
+  }
+}
