@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: An AWS Serverless Specification template describing your function.
+Resources:
+  SMASHCalendarRequest:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs8.10
+      CodeUri: .
+      Description: ''
+      MemorySize: 128
+      Timeout: 5
+      Role: 'arn:aws:iam::981282554781:role/service-role/SMASH_RequestProcessor'
+      Events:
+        AlexaSkillEvent:
+          Type: AlexaSkill
